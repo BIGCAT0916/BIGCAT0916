@@ -61,8 +61,8 @@ function Landing() {
   return (
     <>
       <Hero />
-      <Divisions />
       <About />
+      <Divisions />
       <Portfolio items={PROJECTS} />
       <Contact />
       <Notice />

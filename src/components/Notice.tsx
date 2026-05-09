@@ -2,35 +2,29 @@ import { motion } from 'motion/react';
 import { Notice as NoticeType } from '../types';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { collection, query, orderBy, onSnapshot } from 'firebase/firestore';
+import { db } from '../lib/firebase';
 
 export default function Notice() {
   const [notices, setNotices] = useState<NoticeType[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const saved = localStorage.getItem('artforesta_notices');
-    if (saved) {
-      setNotices(JSON.parse(saved));
-    } else {
-      // Default sample notice
-      const defaultNotice: NoticeType[] = [
-        {
-          id: '1',
-          title: 'Welcome to Art Foresta Notice Board',
-          content: 'Here you can find the latest updates and announcements from Art Foresta.',
-          date: '2024.05.09'
-        }
-      ];
-      setNotices(defaultNotice);
-      localStorage.setItem('artforesta_notices', JSON.stringify(defaultNotice));
-    }
+    const q = query(collection(db, 'notices'), orderBy('date', 'desc'));
+    
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const noticesData = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      })) as NoticeType[];
+      setNotices(noticesData);
+      setLoading(false);
+    }, (error) => {
+      console.error("Error fetching notices: ", error);
+      setLoading(false);
+    });
 
-    // Listen for storage changes (for same-tab updates if using custom events or just to refresh)
-    const handleRefresh = () => {
-      const updated = localStorage.getItem('artforesta_notices');
-      if (updated) setNotices(JSON.parse(updated));
-    };
-    window.addEventListener('notices-updated', handleRefresh);
-    return () => window.removeEventListener('notices-updated', handleRefresh);
+    return () => unsubscribe();
   }, []);
 
   return (
@@ -54,7 +48,9 @@ export default function Notice() {
         </div>
 
         <div className="space-y-4">
-          {notices.length === 0 ? (
+          {loading ? (
+            <p className="text-center text-stone-400 py-16 font-nanum">불러오는 중...</p>
+          ) : notices.length === 0 ? (
             <p className="text-center text-stone-400 py-16 font-nanum">등록된 공지사항이 없습니다.</p>
           ) : (
             notices.map((notice, index) => (

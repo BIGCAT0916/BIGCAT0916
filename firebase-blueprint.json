@@ -1,0 +1,21 @@
+{
+  "entities": {
+    "Notice": {
+      "title": "Notice",
+      "description": "Notice for Art Foresta announcement board",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "content": { "type": "string" },
+        "date": { "type": "string" }
+      },
+      "required": ["title", "content", "date"]
+    }
+  },
+  "firestore": {
+    "notices": {
+      "schema": "Notice",
+      "description": "Collection for all public announcements"
+    }
+  }
+}

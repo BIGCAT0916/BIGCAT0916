@@ -3,22 +3,40 @@ import { motion } from 'motion/react';
 import { useState, useEffect } from 'react';
 import { Notice as NoticeType } from '../types';
 import { ArrowLeft } from 'lucide-react';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '../lib/firebase';
 
 export default function NoticeDetail() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [notice, setNotice] = useState<NoticeType | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const saved = localStorage.getItem('artforesta_notices');
-    if (saved) {
-      const notices: NoticeType[] = JSON.parse(saved);
-      const found = notices.find(n => n.id === id);
-      if (found) {
-        setNotice(found);
+    const fetchNotice = async () => {
+      if (!id) return;
+      try {
+        const docRef = doc(db, 'notices', id);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          setNotice({ id: docSnap.id, ...docSnap.data() } as NoticeType);
+        }
+      } catch (error) {
+        console.error("Error fetching notice:", error);
+      } finally {
+        setLoading(false);
       }
-    }
+    };
+    fetchNotice();
   }, [id]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen pt-32 px-6 flex items-center justify-center bg-white">
+        <p className="text-stone-400 font-nanum">불러오는 중...</p>
+      </div>
+    );
+  }
 
   if (!notice) {
     return (

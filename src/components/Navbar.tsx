@@ -39,9 +39,14 @@ export default function Navbar() {
     >
       <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
         <Link to="/" className="flex flex-col items-start group">
-          <span className={`font-display font-bold text-[20.4px] tracking-tighter transition-colors ${isScrolled || pathname !== '/' ? 'text-stone-900' : 'text-white'}`}>
-            ART FORESTA
-          </span>
+          <div className="flex items-center">
+            <img 
+              src="https://lh3.googleusercontent.com/d/1nyJV5fuIjEpbxSAwEj26z5atbAnJzLbE" 
+              alt="ART FORESTA" 
+              referrerPolicy="no-referrer"
+              className={`w-[161px] h-auto transition-all ${isScrolled || pathname !== '/' ? 'brightness-0' : 'brightness-100'}`}
+            />
+          </div>
           <span className={`text-[8.5px] tracking-[0.3em] font-medium transition-colors ${isScrolled || pathname !== '/' ? 'text-stone-500' : 'text-stone-300'}`}>
             COMPREHENSIVE ARTS GROUP
           </span>

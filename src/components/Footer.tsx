@@ -18,7 +18,12 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex flex-col md:flex-row justify-between items-start gap-12 mb-6">
           <div className="max-w-md">
-            <span className="font-display font-bold text-2xl tracking-tighter block mb-2">ART FORESTA</span>
+            <img 
+              src="https://lh3.googleusercontent.com/d/1nyJV5fuIjEpbxSAwEj26z5atbAnJzLbE" 
+              alt="ART FORESTA" 
+              referrerPolicy="no-referrer"
+              className="w-[161px] h-auto mb-2 brightness-100"
+            />
             <span className="text-[10px] tracking-[0.3em] font-medium text-stone-500 uppercase block mb-6">Comprehensive Arts Group</span>
             <p className="text-white">
               <span className="text-sm opacity-80 font-apple font-bold inline-block">대표 : 박민정</span><br />

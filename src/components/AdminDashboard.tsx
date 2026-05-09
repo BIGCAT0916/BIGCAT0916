@@ -12,6 +12,8 @@ interface AdminDashboardProps {
 }
 
 export default function AdminDashboard({ isOpen, onClose }: AdminDashboardProps) {
+  const [password, setPassword] = useState('');
+  const [isUnlocked, setIsUnlocked] = useState(false);
   const [user, setUser] = useState(auth.currentUser);
   const [isAuthorized, setIsAuthorized] = useState(false);
   const [notices, setNotices] = useState<Notice[]>([]);
@@ -20,10 +22,16 @@ export default function AdminDashboard({ isOpen, onClose }: AdminDashboardProps)
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    if (isOpen) {
+      setPassword('');
+      setIsUnlocked(false);
+    }
+  }, [isOpen]);
+
+  useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setUser(user);
       if (user) {
-        // Check if user is in 'admins' collection
         const adminDoc = await getDoc(doc(db, 'admins', user.uid));
         setIsAuthorized(adminDoc.exists());
       } else {
@@ -35,7 +43,7 @@ export default function AdminDashboard({ isOpen, onClose }: AdminDashboardProps)
   }, []);
 
   useEffect(() => {
-    if (isAuthorized) {
+    if (isAuthorized && isUnlocked) {
       const q = query(collection(db, 'notices'), orderBy('date', 'desc'));
       const unsubscribe = onSnapshot(q, (snapshot) => {
         const noticesData = snapshot.docs.map(doc => ({
@@ -46,7 +54,16 @@ export default function AdminDashboard({ isOpen, onClose }: AdminDashboardProps)
       });
       return () => unsubscribe();
     }
-  }, [isAuthorized]);
+  }, [isAuthorized, isUnlocked]);
+
+  const handlePasswordSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    if (password === '0916') {
+      setIsUnlocked(true);
+    } else {
+      alert('비밀번호가 올바르지 않습니다.');
+    }
+  };
 
   const handleGoogleLogin = async () => {
     const provider = new GoogleAuthProvider();
@@ -120,7 +137,24 @@ export default function AdminDashboard({ isOpen, onClose }: AdminDashboardProps)
         </div>
 
         <div className="flex-1 overflow-y-auto p-8">
-          {!user ? (
+          {!isUnlocked ? (
+            <form onSubmit={handlePasswordSubmit} className="max-w-xs mx-auto py-12 text-center">
+              <p className="text-sm text-stone-500 mb-6 font-apple">비밀번호를 입력하세요.</p>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full px-4 py-3 bg-stone-50 border border-stone-200 rounded-md focus:outline-none focus:border-stone-400 text-center tracking-[0.5em] mb-4"
+                autoFocus
+              />
+              <button 
+                type="submit"
+                className="w-full bg-stone-900 text-white py-3 rounded-md text-xs font-bold tracking-widest hover:bg-stone-800 transition-colors"
+              >
+                ACCESS
+              </button>
+            </form>
+          ) : !user ? (
             <div className="max-w-xs mx-auto py-12 text-center">
               <p className="text-sm text-stone-500 mb-6 font-apple">관리자 로그인이 필요합니다.</p>
               <button 

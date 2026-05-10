@@ -1,6 +1,6 @@
 import { useState, useEffect, FormEvent } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { X, Plus, Trash2, LogOut, Bold, Italic, Link2, Image as ImageIcon, List, AlignLeft, AlignCenter, AlignRight, ChevronLeft, Type, Video, Underline as UnderlineIcon, Edit2 } from 'lucide-react';
+import { X, Plus, Trash2, LogOut, Bold, Italic, Link2, Image as ImageIcon, List, AlignLeft, AlignCenter, AlignRight, ChevronLeft, Type, Video, Underline as UnderlineIcon, Edit2, ChevronRight, Minus } from 'lucide-react';
 import { Notice } from '../types';
 import { db } from '../lib/firebase';
 import { collection, addDoc, deleteDoc, doc, query, orderBy, onSnapshot, updateDoc, serverTimestamp } from 'firebase/firestore';
@@ -20,6 +20,8 @@ interface AdminDashboardProps {
   onClose: () => void;
 }
 
+const ITEMS_PER_PAGE = 8;
+
 export default function AdminDashboard({ isOpen, onClose }: AdminDashboardProps) {
   const [password, setPassword] = useState('');
   const [isUnlocked, setIsUnlocked] = useState(false);
@@ -31,6 +33,7 @@ export default function AdminDashboard({ isOpen, onClose }: AdminDashboardProps)
   const [loading, setLoading] = useState(false);
   const [activePrompt, setActivePrompt] = useState<null | 'image' | 'youtube' | 'link'>(null);
   const [promptValue, setPromptValue] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
 
   const editor = useEditor({
     extensions: [
@@ -46,7 +49,7 @@ export default function AdminDashboard({ isOpen, onClose }: AdminDashboardProps)
       }),
       Youtube.configure({
         HTMLAttributes: {
-          class: 'aspect-video w-full rounded-lg my-4',
+          class: 'aspect-video w-full max-w-2xl mx-auto rounded-lg my-4 block',
         },
       }),
       TextAlign.configure({
@@ -145,6 +148,10 @@ export default function AdminDashboard({ isOpen, onClose }: AdminDashboardProps)
     try {
       await deleteDoc(doc(db, 'notices', id));
       setDeletingId(null);
+      // Adjust page if current page becomes empty after deletion
+      if (notices.length > 0 && notices.length % ITEMS_PER_PAGE === 1 && currentPage > 1 && currentPage === Math.ceil(notices.length / ITEMS_PER_PAGE)) {
+        setCurrentPage(prev => prev - 1);
+      }
     } catch (error) {
       console.error("Error deleting notice:", error);
       alert("삭제에 실패했습니다. (Firestore 권한 실패일 수 있습니다)");
@@ -354,6 +361,13 @@ export default function AdminDashboard({ isOpen, onClose }: AdminDashboardProps)
                   >
                     <List className="w-4 h-4" />
                   </button>
+                  <button 
+                    onClick={() => editor?.chain().focus().setHorizontalRule().run()}
+                    className="p-1.5 hover:bg-stone-200 text-stone-600 rounded transition-colors"
+                    title="Divider"
+                  >
+                    <Minus className="w-4 h-4" />
+                  </button>
                 </div>
                 
                 <div className="flex items-center gap-1 px-2">
@@ -420,8 +434,10 @@ export default function AdminDashboard({ isOpen, onClose }: AdminDashboardProps)
                 </div>
               )}
 
-              <div className="flex-1 min-h-0 bg-white editor-container custom-scrollbar-always">
-                <EditorContent editor={editor} className="outline-none min-h-full p-10 font-apple" />
+              <div className="flex-1 min-h-0 bg-white editor-container overflow-y-auto">
+                <div className="max-w-4xl mx-auto">
+                  <EditorContent editor={editor} className="outline-none min-h-full p-6 md:p-8 font-apple prose prose-stone" />
+                </div>
               </div>
             </div>
           ) : (
@@ -459,56 +475,92 @@ export default function AdminDashboard({ isOpen, onClose }: AdminDashboardProps)
                 </div>
               </div>
 
-              <div className="flex-1 min-h-0 bg-white custom-scrollbar-always">
-                <div className="max-w-3xl mx-auto p-6 space-y-px pb-32">
-                  {notices.map(notice => (
-                    <div key={notice.id} className="flex items-center justify-between p-4 border-b border-stone-50 hover:bg-stone-50 transition-colors group">
-                      <div className="flex items-center gap-4 flex-1 min-w-0">
-                        <div className="w-1.5 h-1.5 rounded-full bg-stone-200 group-hover:bg-[#f86d1a] transition-colors" />
-                        <div className="flex-1 min-w-0">
-                          <h4 className="text-[13px] font-medium text-stone-800 truncate mb-0.5">{notice.title}</h4>
-                          <span className="text-[10px] text-stone-400">{notice.date}</span>
+              <div className="flex-1 min-h-0 bg-white overflow-y-auto">
+                <div className="max-w-3xl mx-auto p-6 space-y-px pb-12">
+                  {notices
+                    .slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE)
+                    .map(notice => (
+                      <div key={notice.id} className="flex items-center justify-between p-4 border-b border-stone-50 hover:bg-stone-50 transition-colors group">
+                        <div className="flex items-center gap-4 flex-1 min-w-0">
+                          <div className="w-1.5 h-1.5 rounded-full bg-stone-200 group-hover:bg-[#f86d1a] transition-colors" />
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2 mb-0.5">
+                              <h4 className="text-[13px] font-medium text-stone-800 truncate">{notice.title}</h4>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                          {deletingId === notice.id ? (
+                            <div className="flex items-center gap-1 bg-red-50 rounded-lg p-1 animate-in fade-in zoom-in duration-200">
+                              <span className="text-[10px] font-bold text-red-500 px-2 italic">삭제?</span>
+                              <button 
+                                onClick={() => deleteNotice(notice.id)}
+                                disabled={loading}
+                                className="px-2 py-1 bg-red-500 text-white text-[10px] font-bold rounded hover:bg-red-600 transition-colors disabled:opacity-50"
+                              >
+                                확인
+                              </button>
+                              <button 
+                                onClick={() => setDeletingId(null)}
+                                className="px-2 py-1 bg-stone-200 text-stone-600 text-[10px] font-bold rounded hover:bg-stone-300 transition-colors"
+                              >
+                                취소
+                              </button>
+                            </div>
+                          ) : (
+                            <>
+                              <button 
+                                onClick={() => handleEditNotice(notice)}
+                                className="p-2 text-stone-400 hover:text-[#f86d1a] hover:bg-[#f86d1a]/10 rounded transition-all"
+                                title="수정"
+                              >
+                                <Edit2 className="w-4 h-4" />
+                              </button>
+                              <button 
+                                onClick={() => setDeletingId(notice.id)}
+                                className="p-2 text-stone-300 hover:text-red-500 hover:bg-red-50 rounded transition-all"
+                                title="삭제"
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </button>
+                            </>
+                          )}
                         </div>
                       </div>
-                      <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                        {deletingId === notice.id ? (
-                          <div className="flex items-center gap-1 bg-red-50 rounded-lg p-1 animate-in fade-in zoom-in duration-200">
-                            <span className="text-[10px] font-bold text-red-500 px-2 italic">삭제?</span>
-                            <button 
-                              onClick={() => deleteNotice(notice.id)}
-                              disabled={loading}
-                              className="px-2 py-1 bg-red-500 text-white text-[10px] font-bold rounded hover:bg-red-600 transition-colors disabled:opacity-50"
-                            >
-                              확인
-                            </button>
-                            <button 
-                              onClick={() => setDeletingId(null)}
-                              className="px-2 py-1 bg-stone-200 text-stone-600 text-[10px] font-bold rounded hover:bg-stone-300 transition-colors"
-                            >
-                              취소
-                            </button>
-                          </div>
-                        ) : (
-                          <>
-                            <button 
-                              onClick={() => handleEditNotice(notice)}
-                              className="p-2 text-stone-400 hover:text-[#f86d1a] hover:bg-[#f86d1a]/10 rounded transition-all"
-                              title="수정"
-                            >
-                              <Edit2 className="w-4 h-4" />
-                            </button>
-                            <button 
-                              onClick={() => setDeletingId(notice.id)}
-                              className="p-2 text-stone-300 hover:text-red-500 hover:bg-red-50 rounded transition-all"
-                              title="삭제"
-                            >
-                              <Trash2 className="w-4 h-4" />
-                            </button>
-                          </>
-                        )}
+                    ))}
+                  
+                  {notices.length > ITEMS_PER_PAGE && (
+                    <div className="mt-8 flex items-center justify-center gap-6 pb-10">
+                      <button 
+                        onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                        disabled={currentPage === 1}
+                        className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-stone-400 hover:text-stone-900 disabled:opacity-30 disabled:hover:text-stone-400 transition-colors"
+                      >
+                        <ChevronLeft className="w-4 h-4" />
+                        Prev
+                      </button>
+                      
+                      <div className="flex items-center gap-3">
+                        {Array.from({ length: Math.ceil(notices.length / ITEMS_PER_PAGE) }).map((_, i) => (
+                          <button
+                            key={i}
+                            onClick={() => setCurrentPage(i + 1)}
+                            className={`w-1.5 h-1.5 rounded-full transition-all ${currentPage === i + 1 ? 'bg-[#f86d1a] scale-150' : 'bg-stone-200 hover:bg-stone-400'}`}
+                          />
+                        ))}
                       </div>
+
+                      <button 
+                        onClick={() => setCurrentPage(prev => Math.min(Math.ceil(notices.length / ITEMS_PER_PAGE), prev + 1))}
+                        disabled={currentPage === Math.ceil(notices.length / ITEMS_PER_PAGE)}
+                        className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-stone-400 hover:text-stone-900 disabled:opacity-30 disabled:hover:text-stone-400 transition-colors"
+                      >
+                        Next
+                        <ChevronRight className="w-4 h-4" />
+                      </button>
                     </div>
-                  ))}
+                  )}
+
                   {notices.length === 0 && (
                     <div className="py-20 text-center">
                       <p className="text-sm text-stone-400">등록된 공지사항이 없습니다.</p>

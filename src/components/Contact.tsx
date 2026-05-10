@@ -33,7 +33,7 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="py-24 bg-stone-50 overflow-hidden">
+    <section id="contact" className="pt-24 pb-12 bg-stone-50 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6">
         <div className="bg-white rounded-[2rem] shadow-2xl overflow-hidden grid grid-cols-1 lg:grid-cols-2">
           {/* Left Panel */}

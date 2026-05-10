@@ -70,7 +70,7 @@ export default function Notice({ isOpen, onClose }: NoticeProps) {
         </div>
 
         {/* Content */}
-        <div className="flex-1 min-h-0 custom-scrollbar-always">
+        <div className="flex-1 min-h-0 overflow-y-auto">
           {loading ? (
             <div className="h-full flex items-center justify-center">
               <p className="text-stone-400 font-apple animate-pulse">불러오는 중...</p>
@@ -80,7 +80,7 @@ export default function Notice({ isOpen, onClose }: NoticeProps) {
               <p className="text-stone-400 font-apple">등록된 공지사항이 없습니다.</p>
             </div>
           ) : (
-            <div className="max-w-4xl mx-auto px-8 py-12 space-y-1 pb-32">
+            <div className="max-w-4xl mx-auto px-8 py-8 space-y-1 pb-12">
               {notices.map((notice, index) => (
                 <motion.div
                   key={notice.id}
@@ -95,11 +95,6 @@ export default function Notice({ isOpen, onClose }: NoticeProps) {
                     className="flex items-center justify-between p-6 rounded-xl hover:bg-stone-50 transition-all border border-transparent hover:border-stone-100"
                   >
                     <div className="flex-1 min-w-0 pr-4">
-                      <div className="flex items-center gap-3 mb-2">
-                        <span className="text-[10px] font-mono text-stone-400 uppercase tracking-tighter">{notice.date}</span>
-                        <div className="w-1 h-1 rounded-full bg-stone-200" />
-                        <span className="text-[10px] font-bold text-[#f86d1a] uppercase tracking-widest">Notice</span>
-                      </div>
                       <h4 className="text-[19px] font-bold text-stone-800 truncate group-hover:text-stone-900 transition-colors font-apple">
                         {notice.title}
                       </h4>

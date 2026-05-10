@@ -56,7 +56,7 @@ export default function NoticeDetail() {
     <motion.div 
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="min-h-screen bg-white pt-32 pb-24 px-6"
+      className="min-h-screen bg-white pt-32 pb-12 px-6"
     >
       <div className="max-w-3xl mx-auto">
         <button 
@@ -71,8 +71,8 @@ export default function NoticeDetail() {
           <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
         </button>
 
-        <div className="mb-12 border-b border-stone-100 pb-12">
-          <h1 className="text-2xl md:text-3xl font-nanum font-bold text-stone-900 tracking-tight leading-tight mb-8">
+        <div className="mb-1 border-b border-stone-100 pb-1">
+          <h1 className="text-2xl md:text-3xl font-nanum font-bold text-stone-900 tracking-tight leading-tight mb-1">
             {notice.title}
           </h1>
         </div>
@@ -84,7 +84,7 @@ export default function NoticeDetail() {
           />
         </div>
 
-        <div className="mt-24 pt-12 border-t border-stone-100 flex justify-between items-center">
+        <div className="mt-12 pt-12 border-t border-stone-100 flex justify-between items-center">
         </div>
       </div>
     </motion.div>

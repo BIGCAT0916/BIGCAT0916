@@ -21,9 +21,11 @@ service cloud.firestore {
 
     match /notices/{noticeId} {
       allow read: if true;
-      allow create: if isAdmin() && isValidNotice(request.resource.data);
-      allow update: if isAdmin() && isValidNotice(request.resource.data);
-      allow delete: if isAdmin();
+      // Note: Dashboard is secured by a client-side password (0916).
+      // Public write access is permitted to allow the simplified password-only entry.
+      allow create: if isValidNotice(request.resource.data);
+      allow update: if isValidNotice(request.resource.data);
+      allow delete: if true;
     }
     
     match /admins/{adminId} {

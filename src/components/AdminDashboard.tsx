@@ -14,8 +14,6 @@ interface AdminDashboardProps {
 export default function AdminDashboard({ isOpen, onClose }: AdminDashboardProps) {
   const [password, setPassword] = useState('');
   const [isUnlocked, setIsUnlocked] = useState(false);
-  const [user, setUser] = useState(auth.currentUser);
-  const [isAuthorized, setIsAuthorized] = useState(false);
   const [notices, setNotices] = useState<Notice[]>([]);
   const [newTitle, setNewTitle] = useState('');
   const [newContent, setNewContent] = useState('');
@@ -29,21 +27,7 @@ export default function AdminDashboard({ isOpen, onClose }: AdminDashboardProps)
   }, [isOpen]);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      setUser(user);
-      if (user) {
-        const adminDoc = await getDoc(doc(db, 'admins', user.uid));
-        setIsAuthorized(adminDoc.exists());
-      } else {
-        setIsAuthorized(false);
-      }
-    });
-
-    return () => unsubscribe();
-  }, []);
-
-  useEffect(() => {
-    if (isAuthorized && isUnlocked) {
+    if (isUnlocked) {
       const q = query(collection(db, 'notices'), orderBy('date', 'desc'));
       const unsubscribe = onSnapshot(q, (snapshot) => {
         const noticesData = snapshot.docs.map(doc => ({
@@ -54,7 +38,7 @@ export default function AdminDashboard({ isOpen, onClose }: AdminDashboardProps)
       });
       return () => unsubscribe();
     }
-  }, [isAuthorized, isUnlocked]);
+  }, [isUnlocked]);
 
   const handlePasswordSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -62,24 +46,6 @@ export default function AdminDashboard({ isOpen, onClose }: AdminDashboardProps)
       setIsUnlocked(true);
     } else {
       alert('비밀번호가 올바르지 않습니다.');
-    }
-  };
-
-  const handleGoogleLogin = async () => {
-    const provider = new GoogleAuthProvider();
-    try {
-      await signInWithPopup(auth, provider);
-    } catch (error) {
-      console.error("Login failed:", error);
-      alert("로그인에 실패했습니다.");
-    }
-  };
-
-  const handleLogout = async () => {
-    try {
-      await signOut(auth);
-    } catch (error) {
-      console.error("Logout failed:", error);
     }
   };
 
@@ -96,7 +62,7 @@ export default function AdminDashboard({ isOpen, onClose }: AdminDashboardProps)
       setNewContent('');
     } catch (error) {
       console.error("Error adding notice:", error);
-      alert("공지사항 등록에 실패했습니다. 권한을 확인해주세요.");
+      alert("공지사항 등록에 실패했습니다.");
     } finally {
       setLoading(false);
     }
@@ -154,38 +120,17 @@ export default function AdminDashboard({ isOpen, onClose }: AdminDashboardProps)
                 ACCESS
               </button>
             </form>
-          ) : !user ? (
-            <div className="max-w-xs mx-auto py-12 text-center">
-              <p className="text-sm text-stone-500 mb-6 font-apple">관리자 로그인이 필요합니다.</p>
-              <button 
-                onClick={handleGoogleLogin}
-                className="w-full bg-stone-900 text-white py-3 rounded-md text-xs font-bold tracking-widest hover:bg-stone-800 transition-colors"
-              >
-                LOGIN WITH GOOGLE
-              </button>
-            </div>
-          ) : !isAuthorized ? (
-            <div className="max-w-xs mx-auto py-12 text-center">
-              <p className="text-sm text-stone-500 mb-2 font-apple">접근 권한이 없습니다.</p>
-              <p className="text-xs text-stone-400 mb-6 break-all">ID: {user.uid}</p>
-              <button 
-                onClick={handleLogout}
-                className="w-full border border-stone-200 text-stone-600 py-3 rounded-md text-xs font-bold tracking-widest hover:bg-stone-50 transition-colors"
-              >
-                LOGOUT
-              </button>
-            </div>
           ) : (
             <div className="space-y-8">
               <div className="flex items-center justify-between pb-4 border-b border-stone-100">
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-stone-200 overflow-hidden">
-                    {user.photoURL && <img src={user.photoURL} alt="Profile" className="w-full h-full object-cover" />}
+                  <div className="w-8 h-8 rounded-full bg-stone-200 flex items-center justify-center">
+                    <span className="text-[10px] font-bold text-stone-400">ADMIN</span>
                   </div>
-                  <span className="text-sm font-medium text-stone-700">{user.displayName || 'Admin'}</span>
+                  <span className="text-sm font-medium text-stone-700">관리자 모드</span>
                 </div>
                 <button 
-                  onClick={handleLogout}
+                  onClick={() => setIsUnlocked(false)}
                   className="p-2 text-stone-400 hover:text-stone-900 transition-colors"
                   title="Logout"
                 >

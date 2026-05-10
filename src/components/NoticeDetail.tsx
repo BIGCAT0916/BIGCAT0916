@@ -33,7 +33,7 @@ export default function NoticeDetail() {
   if (loading) {
     return (
       <div className="min-h-screen pt-32 px-6 flex items-center justify-center bg-white">
-        <p className="text-stone-400 font-apple">불러오는 중...</p>
+        <p className="text-stone-400 font-nanum">불러오는 중...</p>
       </div>
     );
   }
@@ -41,7 +41,7 @@ export default function NoticeDetail() {
   if (!notice) {
     return (
       <div className="min-h-screen pt-32 px-6 flex flex-col items-center justify-center bg-white">
-        <h2 className="text-xl font-apple text-stone-400 mb-8">존재하지 않는 공지사항입니다.</h2>
+        <h2 className="text-xl font-nanum text-stone-400 mb-8">존재하지 않는 공지사항입니다.</h2>
         <button 
           onClick={() => navigate('/')}
           className="px-8 py-3 bg-stone-900 text-white text-xs font-bold tracking-widest hover:bg-stone-800 transition-colors"
@@ -68,13 +68,13 @@ export default function NoticeDetail() {
         </button>
 
         <div className="mb-12 border-b border-stone-100 pb-12">
-          <h1 className="text-4xl md:text-5xl font-apple font-bold text-stone-900 tracking-tight leading-tight mb-8">
+          <h1 className="text-4xl md:text-5xl font-nanum font-bold text-stone-900 tracking-tight leading-tight mb-8">
             {notice.title}
           </h1>
         </div>
 
         <div className="prose prose-stone max-w-none">
-          <p className="text-lg text-stone-600 font-apple leading-relaxed whitespace-pre-wrap">
+          <p className="text-lg text-stone-600 font-nanum leading-relaxed whitespace-pre-wrap">
             {notice.content}
           </p>
         </div>

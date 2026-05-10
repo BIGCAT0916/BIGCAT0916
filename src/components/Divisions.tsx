@@ -52,7 +52,7 @@ export default function Divisions() {
             <h3 className="text-4xl md:text-5xl font-serif tracking-tight text-white mb-6">
               Core Divisions
             </h3>
-            <p className="max-w-xl mx-auto text-stone-400 text-[15.4px] tracking-wide leading-relaxed font-apple">
+            <p className="max-w-xl mx-auto text-stone-400 text-[15.4px] tracking-wide leading-relaxed font-barun">
               영상과 음악, 패션, 마케팅이 융합된 아트포레스타만의 <br className="hidden md:block" />
               전문 사업부는 브랜드의 정체성을 가장 감각적인 방식으로 정의합니다.
             </p>
@@ -82,7 +82,7 @@ export default function Divisions() {
                   {div.icon}
                 </div>
                 <h4 className="text-2xl font-serif text-white mb-3 italic">{div.title}</h4>
-                <p className="text-white text-sm leading-relaxed mb-6 max-w-sm font-apple">
+                <p className="text-white text-sm leading-relaxed mb-6 max-w-sm font-barun">
                   {div.description}
                 </p>
                 <div className="flex flex-wrap gap-2">

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Send, Phone, Mail, CheckCircle2, Loader2 } from 'lucide-react';
+import { Send, Phone, Mail, CheckCircle2, Loader2, ChevronDown } from 'lucide-react';
 import type { FormEvent } from 'react';
 
 export default function Contact() {
@@ -156,13 +156,19 @@ export default function Contact() {
                     </div>
                     <div>
                       <label className="block text-[10px] tracking-widest font-bold uppercase text-stone-400 mb-2 ml-1">Inquiry Type</label>
-                      <select name="type" className="w-full px-4 py-4 bg-stone-50 border-transparent rounded-xl focus:bg-white focus:ring-1 focus:ring-brand-accent transition-all outline-none appearance-none cursor-pointer">
+                    <div className="relative group">
+                      <select 
+                        name="type" 
+                        className="w-full px-4 py-4 bg-stone-50 border-transparent rounded-xl focus:bg-white focus:ring-1 focus:ring-brand-accent transition-all outline-none appearance-none cursor-pointer pr-12"
+                      >
                         <option value="영상제작">영상제작</option>
                         <option value="패션 컨설팅(코디)">패션 컨설팅(코디)</option>
                         <option value="음악 및 음원 제작">음악 및 음원 제작</option>
                         <option value="마케팅">마케팅</option>
                         <option value="협업 제안">협업 제안</option>
                       </select>
+                      <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400 pointer-events-none group-focus-within:text-brand-accent transition-colors" />
+                    </div>
                     </div>
                     <div>
                       <label className="block text-[10px] tracking-widest font-bold uppercase text-stone-400 mb-2 ml-1">Tell us more</label>

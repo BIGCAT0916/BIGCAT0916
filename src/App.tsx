@@ -65,7 +65,6 @@ function Landing() {
       <Divisions />
       <Portfolio items={PROJECTS} />
       <Contact />
-      <Notice />
     </>
   );
 }
@@ -80,11 +79,17 @@ function PageScrollToTop() {
 
 export default function App() {
   const [isAdminOpen, setIsAdminOpen] = useState(false);
+  const [isNoticeOpen, setIsNoticeOpen] = useState(false);
 
   useEffect(() => {
     const handleOpenAdmin = () => setIsAdminOpen(true);
+    const handleOpenNotice = () => setIsNoticeOpen(true);
     window.addEventListener('open-admin-dashboard', handleOpenAdmin);
-    return () => window.removeEventListener('open-admin-dashboard', handleOpenAdmin);
+    window.addEventListener('open-notice-modal', handleOpenNotice);
+    return () => {
+      window.removeEventListener('open-admin-dashboard', handleOpenAdmin);
+      window.removeEventListener('open-notice-modal', handleOpenNotice);
+    };
   }, []);
 
   return (
@@ -106,6 +111,12 @@ export default function App() {
         <AnimatePresence>
           {isAdminOpen && (
             <AdminDashboard isOpen={isAdminOpen} onClose={() => setIsAdminOpen(false)} />
+          )}
+        </AnimatePresence>
+
+        <AnimatePresence>
+          {isNoticeOpen && (
+            <Notice isOpen={isNoticeOpen} onClose={() => setIsNoticeOpen(false)} />
           )}
         </AnimatePresence>
       </div>

@@ -37,6 +37,20 @@ export default function Navbar() {
     }
   };
 
+  const handleNavClick = (e: MouseEvent, href: string, name: string) => {
+    if (name === 'NOTICE') {
+      e.preventDefault();
+      window.dispatchEvent(new CustomEvent('open-notice-modal'));
+      setIsMobileMenuOpen(false);
+      return;
+    }
+    
+    if (pathname === '/' && href.startsWith('#')) {
+      // Allow default smooth scroll for other sections if already on home
+      // or handle it manually if needed.
+    }
+  };
+
   return (
     <nav 
       id="main-nav"
@@ -62,12 +76,13 @@ export default function Navbar() {
             COMPREHENSIVE ARTS GROUP
           </span>
         </Link>
-
+ 
         <div className="hidden md:flex items-center gap-10">
           {navLinks.map((link) => (
             <a
               key={link.name}
               href={getHref(link.href)}
+              onClick={(e) => handleNavClick(e, link.href, link.name)}
               className={`text-[10.2px] font-semibold tracking-widest transition-all hover:opacity-100 ${
                 isScrolled || pathname !== '/' ? 'text-stone-600 opacity-70' : 'text-white opacity-80'
               } hover:tracking-[0.2em]`}
@@ -76,7 +91,7 @@ export default function Navbar() {
             </a>
           ))}
         </div>
-
+ 
         <button 
           className="md:hidden"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -88,7 +103,7 @@ export default function Navbar() {
           )}
         </button>
       </div>
-
+ 
       {/* Mobile Menu */}
       <AnimatePresence>
         {isMobileMenuOpen && (
@@ -102,7 +117,7 @@ export default function Navbar() {
               <a
                 key={link.name}
                 href={getHref(link.href)}
-                onClick={() => setIsMobileMenuOpen(false)}
+                onClick={(e) => handleNavClick(e, link.href, link.name)}
                 className="text-stone-900 text-lg font-display font-medium tracking-wide"
               >
                 {link.name}

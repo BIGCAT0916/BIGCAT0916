@@ -11,4 +11,6 @@ export interface Notice {
   title: string;
   content: string;
   date: string;
+  createdAt?: any;
+  updatedAt?: any;
 }

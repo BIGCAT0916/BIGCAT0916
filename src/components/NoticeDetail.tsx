@@ -33,7 +33,7 @@ export default function NoticeDetail() {
   if (loading) {
     return (
       <div className="min-h-screen pt-32 px-6 flex items-center justify-center bg-white">
-        <p className="text-stone-400 font-nanum">불러오는 중...</p>
+        <p className="text-stone-400 font-apple">불러오는 중...</p>
       </div>
     );
   }
@@ -41,7 +41,7 @@ export default function NoticeDetail() {
   if (!notice) {
     return (
       <div className="min-h-screen pt-32 px-6 flex flex-col items-center justify-center bg-white">
-        <h2 className="text-xl font-nanum text-stone-400 mb-8">존재하지 않는 공지사항입니다.</h2>
+        <h2 className="text-xl font-apple text-stone-400 mb-8">존재하지 않는 공지사항입니다.</h2>
         <button 
           onClick={() => navigate('/')}
           className="px-8 py-3 bg-stone-900 text-white text-xs font-bold tracking-widest hover:bg-stone-800 transition-colors"
@@ -60,27 +60,31 @@ export default function NoticeDetail() {
     >
       <div className="max-w-3xl mx-auto">
         <button 
-          onClick={() => navigate(-1)}
+          onClick={() => {
+            navigate('/');
+            setTimeout(() => {
+              window.dispatchEvent(new CustomEvent('open-notice-modal'));
+            }, 100);
+          }}
           className="group flex items-center gap-2 text-stone-400 hover:text-stone-900 transition-colors mb-12"
         >
           <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-          <span className="text-[10px] font-bold tracking-widest uppercase">Go Back</span>
         </button>
 
         <div className="mb-12 border-b border-stone-100 pb-12">
-          <h1 className="text-4xl md:text-5xl font-nanum font-bold text-stone-900 tracking-tight leading-tight mb-8">
+          <h1 className="text-2xl md:text-3xl font-nanum font-bold text-stone-900 tracking-tight leading-tight mb-8">
             {notice.title}
           </h1>
         </div>
 
-        <div className="prose prose-stone max-w-none">
-          <p className="text-lg text-stone-600 font-nanum leading-relaxed whitespace-pre-wrap">
-            {notice.content}
-          </p>
+        <div className="prose prose-stone max-w-none prose-img:rounded-xl prose-headings:font-nanum prose-p:font-apple">
+          <div 
+            className="text-lg text-stone-600 font-apple leading-relaxed"
+            dangerouslySetInnerHTML={{ __html: notice.content }}
+          />
         </div>
 
         <div className="mt-24 pt-12 border-t border-stone-100 flex justify-between items-center">
-           <span className="text-[10px] tracking-[0.3em] font-medium text-stone-400 uppercase">Art Foresta Legal Notice Board</span>
         </div>
       </div>
     </motion.div>

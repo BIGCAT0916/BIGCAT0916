@@ -40,3 +40,75 @@
 .forest-gradient {
   background: linear-gradient(to bottom, rgba(28, 25, 23, 0), rgba(28, 25, 23, 0.8));
 }
+
+/* Tiptap / Rich Text Styles */
+.editor-container .tiptap {
+  outline: none;
+  min-height: 500px;
+}
+
+.editor-container .tiptap p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: #adb5bd;
+  pointer-events: none;
+  height: 0;
+}
+
+.prose img {
+  @apply max-w-full h-auto rounded-xl my-8 mx-auto block;
+}
+
+.prose iframe {
+  @apply w-full aspect-video rounded-xl my-8 shadow-lg;
+}
+
+.prose h1 {
+  @apply text-2xl md:text-3xl font-bold text-stone-900 mt-8 mb-4 font-nanum;
+}
+
+.prose h2 {
+  @apply text-xl font-bold text-stone-900 mt-6 mb-3 font-nanum;
+}
+
+.prose p {
+  @apply mb-4 leading-relaxed;
+}
+
+.prose ul {
+  @apply list-disc list-inside mb-4 space-y-1;
+}
+
+.prose a {
+  @apply text-[#f86d1a] underline hover:text-[#e05d15];
+}
+
+/* Custom Scrollbar */
+.custom-scrollbar-always {
+  scrollbar-gutter: stable;
+  overflow-y: scroll !important;
+}
+
+.custom-scrollbar::-webkit-scrollbar,
+.custom-scrollbar-always::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track,
+.custom-scrollbar-always::-webkit-scrollbar-track {
+  background: #f8f9fa;
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb,
+.custom-scrollbar-always::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 10px;
+  border: 3px solid #f8f9fa;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover,
+.custom-scrollbar-always::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, MouseEvent } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Menu, X } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
@@ -30,6 +30,13 @@ export default function Navbar() {
     return `/${href}`;
   };
 
+  const scrollToTop = (e: MouseEvent) => {
+    if (pathname === '/') {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
   return (
     <nav 
       id="main-nav"
@@ -38,7 +45,11 @@ export default function Navbar() {
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
-        <Link to="/" className="flex flex-col items-start group">
+        <Link 
+          to="/" 
+          onClick={scrollToTop}
+          className="flex flex-col items-start group"
+        >
           <div className="flex items-center">
             <img 
               src="https://lh3.googleusercontent.com/d/1nyJV5fuIjEpbxSAwEj26z5atbAnJzLbE" 

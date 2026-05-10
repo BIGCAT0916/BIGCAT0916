@@ -49,9 +49,9 @@ export default function Notice() {
 
         <div className="space-y-4">
           {loading ? (
-            <p className="text-center text-stone-400 py-16 font-nanum">불러오는 중...</p>
+            <p className="text-center text-stone-400 py-16 font-apple">불러오는 중...</p>
           ) : notices.length === 0 ? (
-            <p className="text-center text-stone-400 py-16 font-nanum">등록된 공지사항이 없습니다.</p>
+            <p className="text-center text-stone-400 py-16 font-apple">등록된 공지사항이 없습니다.</p>
           ) : (
             notices.map((notice, index) => (
               <motion.div
@@ -65,7 +65,7 @@ export default function Notice() {
                 <Link to={`/notice/${notice.id}`} className="block">
                   <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div className="flex-1 text-center">
-                      <h4 className="text-[22px] font-nanum font-bold text-stone-800 mb-2 group-hover:text-stone-950 transition-colors">
+                      <h4 className="text-[22px] font-apple font-bold text-stone-800 mb-2 group-hover:text-stone-950 transition-colors">
                         {notice.title}
                       </h4>
                       <p className="text-sm text-stone-500 font-apple tracking-[-0.1em] leading-relaxed line-clamp-2">

@@ -1,7 +1,12 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function Footer() {
   const [clickCount, setClickCount] = useState(0);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   const handleTrigger = () => {
     const newCount = clickCount + 1;
@@ -18,13 +23,24 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex flex-col md:flex-row justify-between items-start gap-12 mb-6">
           <div className="max-w-md">
-            <img 
-              src="https://lh3.googleusercontent.com/d/1nyJV5fuIjEpbxSAwEj26z5atbAnJzLbE" 
-              alt="ART FORESTA" 
-              referrerPolicy="no-referrer"
-              className="w-[161px] h-auto mb-2 brightness-100"
-            />
-            <span className="text-[10px] tracking-[0.3em] font-medium text-stone-500 uppercase block mb-6">Comprehensive Arts Group</span>
+            <Link 
+              to="/" 
+              onClick={(e) => {
+                if (window.location.pathname === '/') {
+                  e.preventDefault();
+                  scrollToTop();
+                }
+              }}
+              className="inline-block group"
+            >
+              <img 
+                src="https://lh3.googleusercontent.com/d/1nyJV5fuIjEpbxSAwEj26z5atbAnJzLbE" 
+                alt="ART FORESTA" 
+                referrerPolicy="no-referrer"
+                className="w-[161px] h-auto mb-2 brightness-100 transition-opacity group-hover:opacity-80"
+              />
+              <span className="text-[10px] tracking-[0.3em] font-medium text-stone-500 uppercase block mb-6 transition-colors group-hover:text-stone-400">Comprehensive Arts Group</span>
+            </Link>
             <p className="text-white">
               <span className="text-sm opacity-80 font-apple font-bold inline-block">대표 : 박민정</span><br />
               <span className="text-[12.5px] opacity-60 font-apple inline-block mt-0.5">사업자등록번호 : 837-87-03564</span>

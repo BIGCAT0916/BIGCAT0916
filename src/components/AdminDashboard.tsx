@@ -2,9 +2,8 @@ import { useState, useEffect, FormEvent } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, Plus, Trash2, LogOut } from 'lucide-react';
 import { Notice } from '../types';
-import { auth, db } from '../lib/firebase';
-import { signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from 'firebase/auth';
-import { collection, addDoc, deleteDoc, doc, query, orderBy, onSnapshot, getDoc } from 'firebase/firestore';
+import { db } from '../lib/firebase';
+import { collection, addDoc, deleteDoc, doc, query, orderBy, onSnapshot } from 'firebase/firestore';
 
 interface AdminDashboardProps {
   isOpen: boolean;

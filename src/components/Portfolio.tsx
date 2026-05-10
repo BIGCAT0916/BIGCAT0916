@@ -34,8 +34,8 @@ export default function Portfolio({ items }: PortfolioProps) {
         </div>
 
         <div className="mb-5 flex justify-end">
-          <div className="text-right font-nanum text-stone-400">
-            <p className="text-sm md:text-base tracking-wide leading-relaxed font-nanum">
+          <div className="text-right font-apple text-stone-400">
+            <p className="text-sm md:text-base tracking-wide leading-relaxed font-apple">
               전통의 깊이와 현대의 감각이 만나는 숲. 
               <span className="text-[1.2em] font-bold text-stone-700 ml-2">아트포레스타</span>
             </p>

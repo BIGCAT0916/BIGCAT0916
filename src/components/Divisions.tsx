@@ -9,10 +9,7 @@ export default function Divisions() {
       icon: <Camera className="w-6 h-6" />,
       image: 'https://lh3.googleusercontent.com/d/1yp2IhOh2Y06BJQadPw3ebULnmUxnf3a-',
       points: ['TV-CF Production', 'Fashion Film', 'AI Video Integration'],
-      opacity: 'opacity-50',
-      grayscale: false,
-      filter: '',
-      overlayOpacity: ''
+      opacity: 'opacity-50'
     },
     {
       title: 'Sound & Music',
@@ -20,10 +17,7 @@ export default function Divisions() {
       icon: <Music className="w-6 h-6" />,
       image: 'https://lh3.googleusercontent.com/d/1tcFvNky7anOoD73bnsJ7zSuyxOLx1ZNU',
       points: ['Custom Soundtracks', 'Audio Branding', 'Music Library'],
-      opacity: 'opacity-60',
-      grayscale: false,
-      filter: '',
-      overlayOpacity: ''
+      opacity: 'opacity-60'
     },
     {
       title: 'Fashion & Style',
@@ -31,10 +25,7 @@ export default function Divisions() {
       icon: <Shirt className="w-6 h-6" />,
       image: 'https://lh3.googleusercontent.com/d/1XwJnKCJDcqtsnt-iBwn4tVOZRf8pfo7-',
       points: ['Visual Directing', 'STYLE CONSULTING', 'Branding Content'],
-      opacity: 'opacity-60',
-      grayscale: false,
-      filter: '',
-      overlayOpacity: ''
+      opacity: 'opacity-60'
     },
     {
       title: 'Marketing & Strategy',
@@ -42,10 +33,7 @@ export default function Divisions() {
       icon: <BarChart3 className="w-6 h-6" />,
       image: 'https://lh3.googleusercontent.com/d/1nldWYz8l59h3bVPByi4sV1E_lXdxROY9',
       points: ['Brand Strategy', 'SNS Marketing', 'Distribution Plan'],
-      opacity: 'opacity-60',
-      overlayOpacity: 'opacity-60',
-      grayscale: false,
-      filter: ''
+      opacity: 'opacity-60'
     }
   ];
 
@@ -64,7 +52,7 @@ export default function Divisions() {
             <h3 className="text-4xl md:text-5xl font-serif tracking-tight text-white mb-6">
               Core Divisions
             </h3>
-            <p className="max-w-xl mx-auto text-stone-400 text-[15.4px] tracking-wide leading-relaxed font-barun">
+            <p className="max-w-xl mx-auto text-stone-400 text-[15.4px] tracking-wide leading-relaxed font-apple">
               영상과 음악, 패션, 마케팅이 융합된 아트포레스타만의 <br className="hidden md:block" />
               전문 사업부는 브랜드의 정체성을 가장 감각적인 방식으로 정의합니다.
             </p>
@@ -85,16 +73,16 @@ export default function Divisions() {
                 src={div.image} 
                 alt={div.title}
                 referrerPolicy="no-referrer"
-                className={`absolute inset-0 w-full h-full object-cover ${div.grayscale ? 'grayscale' : ''} ${div.filter || ''} ${div.opacity || 'opacity-40'} group-hover:scale-105 transition-transform duration-700`}
+                className={`absolute inset-0 w-full h-full object-cover ${div.opacity || 'opacity-40'} group-hover:scale-105 transition-transform duration-700`}
               />
-              <div className={`absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-950/20 to-transparent ${div.overlayOpacity || ''}`}></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-950/20 to-transparent"></div>
               
               <div className="absolute inset-0 p-8 flex flex-col justify-end">
                 <div className="mb-4 text-white p-3 bg-white/5 backdrop-blur-md rounded-full w-fit">
                   {div.icon}
                 </div>
                 <h4 className="text-2xl font-serif text-white mb-3 italic">{div.title}</h4>
-                <p className="text-white text-sm leading-relaxed mb-6 max-w-sm font-barun">
+                <p className="text-white text-sm leading-relaxed mb-6 max-w-sm font-apple">
                   {div.description}
                 </p>
                 <div className="flex flex-wrap gap-2">

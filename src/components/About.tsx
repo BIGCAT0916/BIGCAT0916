@@ -46,7 +46,7 @@ export default function About() {
             <h3 className="text-4xl md:text-5xl font-serif tracking-tight text-stone-900 mb-8 leading-tight">
               전통의 깊이와 <br />
               현대의 감각이 만나는 <br />
-              <span className="text-[1.15em] inline-block font-nanum mx-1">숲(Foresta)</span>
+              <span className="text-[1.15em] inline-block font-apple mx-1">숲(Foresta)</span>
             </h3>
             
             <div className="space-y-6 text-stone-600 leading-relaxed text-[14.7px]">

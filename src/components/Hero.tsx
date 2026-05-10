@@ -102,11 +102,11 @@ export default function Hero() {
               <span className="font-apple font-medium text-[12.8px] md:text-[16.5px] tracking-[-0.05em]">
                 영상·음악 제작 기반 위에 감각적인 패션과 마케팅이 이뤄지는
               </span>
-              <span className="font-nanum font-bold text-[18.1px] md:text-[23.3px] ml-2">
+              <span className="font-apple font-bold text-[18.1px] md:text-[23.3px] ml-2">
                 숲
               </span>
             </span>
-            <span className="text-[16.6px] md:text-[21.4px] font-nanum font-bold block">
+            <span className="text-[16.6px] md:text-[21.4px] font-apple font-bold block">
               새로운 스타일의 미디어 컨설팅
             </span>
           </p>

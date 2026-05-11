@@ -19,7 +19,10 @@ export default function NoticeDetail() {
         const docRef = doc(db, 'notices', id);
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
-          setNotice({ id: docSnap.id, ...docSnap.data() } as NoticeType);
+          const data = docSnap.data() as NoticeType;
+          setNotice({ id: docSnap.id, ...data } as NoticeType);
+          // Set dynamic title for SEO
+          document.title = `${data.title} | Art Foresta Notice`;
         }
       } catch (error) {
         console.error("Error fetching notice:", error);
@@ -28,6 +31,11 @@ export default function NoticeDetail() {
       }
     };
     fetchNotice();
+
+    // Reset title when unmounting
+    return () => {
+      document.title = "Art Foresta | 아트포레스타 - 종합 예술 전문가 그룹";
+    };
   }, [id]);
 
   if (loading) {

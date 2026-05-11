@@ -96,6 +96,23 @@ export default function App() {
     <BrowserRouter>
       <PageScrollToTop />
       <div className="font-sans antialiased text-stone-900 bg-stone-50 min-h-screen flex flex-col">
+        {/* JSON-LD Structured Data */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "Art Foresta 아트포레스타",
+            "url": "https://artforesta.co.kr",
+            "logo": "https://lh3.googleusercontent.com/d/1nyJV5fuIjEpbxSAwEj26z5atbAnJzLbE",
+            "description": "영상,음악,마케팅,패션이 융합된 감동의 숲,아트포레스타입니다.",
+            "contactPoint": {
+              "@type": "ContactPoint",
+              "telephone": "+82-10-0000-0000",
+              "contactType": "customer service"
+            }
+          })}
+        </script>
+        
         <Navbar />
         
         <main className="flex-1">

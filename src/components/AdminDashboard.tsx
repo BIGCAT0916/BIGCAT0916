@@ -49,7 +49,7 @@ export default function AdminDashboard({ isOpen, onClose }: AdminDashboardProps)
       }),
       Youtube.configure({
         HTMLAttributes: {
-          class: 'aspect-video w-full max-w-2xl mx-auto rounded-lg my-4 block',
+          class: 'aspect-video w-full max-w-[800px] mx-auto rounded-xl my-8 shadow-lg block',
         },
       }),
       TextAlign.configure({
@@ -205,8 +205,13 @@ export default function AdminDashboard({ isOpen, onClose }: AdminDashboardProps)
       >
         <div className="flex items-center justify-between px-6 py-4 border-b border-stone-200 bg-white">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-stone-900 flex items-center justify-center">
-              <span className="text-[10px] font-bold text-white tracking-widest">AF</span>
+            <div className="w-8 h-8 rounded-full bg-stone-900 flex items-center justify-center overflow-hidden">
+              <img 
+                src="https://lh3.googleusercontent.com/d/1ibmySrPURDmda82PCE1peA14DqoAZJjN" 
+                alt="Logo" 
+                className="w-full h-full object-cover"
+                referrerPolicy="no-referrer"
+              />
             </div>
             <h2 className="text-xs font-bold tracking-widest uppercase text-stone-900">Admin Dashboard</h2>
           </div>
@@ -218,11 +223,16 @@ export default function AdminDashboard({ isOpen, onClose }: AdminDashboardProps)
 
         <div className="flex-1 overflow-hidden">
           {!isUnlocked ? (
-            <div className="h-full flex items-center justify-center p-12 bg-stone-50">
-              <form onSubmit={handlePasswordSubmit} className="w-full max-w-xs text-center">
+            <div className="h-full flex items-center justify-center p-6 md:p-12 bg-stone-50 overflow-y-auto">
+              <form onSubmit={handlePasswordSubmit} className="w-full max-w-xs text-center py-10">
                 <div className="mb-10">
-                  <div className="w-16 h-16 rounded-full bg-stone-900 flex items-center justify-center mx-auto mb-6 shadow-xl">
-                    <span className="text-lg font-bold text-white tracking-widest">AF</span>
+                  <div className="w-20 h-20 rounded-full bg-stone-900 flex items-center justify-center mx-auto mb-6 shadow-xl overflow-hidden">
+                    <img 
+                      src="https://lh3.googleusercontent.com/d/1ibmySrPURDmda82PCE1peA14DqoAZJjN" 
+                      alt="Logo" 
+                      className="w-full h-full object-cover"
+                      referrerPolicy="no-referrer"
+                    />
                   </div>
                   <h3 className="text-lg font-bold text-stone-900 mb-2">Admin Access</h3>
                   <p className="text-xs text-stone-400 font-apple">관리자 전용 페이지입니다.</p>
@@ -247,8 +257,8 @@ export default function AdminDashboard({ isOpen, onClose }: AdminDashboardProps)
             </div>
           ) : isAdding ? (
             <div className="flex flex-col h-full bg-white">
-                <div className="flex items-center justify-between px-4 py-3 border-b border-stone-200">
-                <div className="flex items-center gap-4 flex-1">
+              <div className="flex items-center justify-between px-4 py-3 border-b border-stone-200 sticky top-0 bg-white z-20">
+                <div className="flex items-center gap-4 flex-1 min-w-0">
                   <button 
                     onClick={() => {
                       setIsAdding(false);
@@ -256,7 +266,7 @@ export default function AdminDashboard({ isOpen, onClose }: AdminDashboardProps)
                       setNewTitle('');
                       editor?.commands.setContent('');
                     }}
-                    className="p-1.5 hover:bg-stone-100 rounded-full transition-colors"
+                    className="p-1.5 hover:bg-stone-100 rounded-full transition-colors shrink-0"
                   >
                     <ChevronLeft className="w-5 h-5 text-stone-600" />
                   </button>
@@ -265,10 +275,10 @@ export default function AdminDashboard({ isOpen, onClose }: AdminDashboardProps)
                     placeholder="공지사항 제목"
                     value={newTitle}
                     onChange={(e) => setNewTitle(e.target.value)}
-                    className="flex-1 text-lg font-bold text-stone-800 placeholder-stone-300 outline-none"
+                    className="flex-1 text-base md:text-lg font-bold text-stone-800 placeholder-stone-300 outline-none min-w-0"
                   />
                 </div>
-                <div className="flex items-center gap-3 ml-4">
+                <div className="flex items-center gap-2 md:gap-3 ml-2 md:ml-4 shrink-0">
                   <button 
                     onClick={() => {
                       setIsAdding(false);
@@ -276,22 +286,22 @@ export default function AdminDashboard({ isOpen, onClose }: AdminDashboardProps)
                       setNewTitle('');
                       editor?.commands.setContent('');
                     }}
-                    className="px-4 py-2 text-xs font-bold text-stone-600 hover:bg-stone-100 rounded transition-colors"
+                    className="px-3 py-2 text-[10px] md:text-xs font-bold text-stone-600 hover:bg-stone-100 rounded transition-colors hidden sm:block"
                   >
                     취소
                   </button>
                   <button 
                     onClick={addNotice}
                     disabled={loading}
-                    className="px-6 py-2 text-xs font-bold text-white bg-[#f86d1a] hover:bg-[#e05d15] rounded shadow-sm transition-colors disabled:opacity-50"
+                    className="px-4 md:px-6 py-2 text-[10px] md:text-xs font-bold text-white bg-[#f86d1a] hover:bg-[#e05d15] rounded shadow-sm transition-colors disabled:opacity-50 whitespace-nowrap"
                   >
-                    {loading ? '저장 중...' : editingId ? '수정 완료' : '게시'}
+                    {loading ? '...' : editingId ? '수정 완료' : '게시'}
                   </button>
                 </div>
               </div>
 
-              <div className="flex items-center gap-1 px-4 py-2 bg-stone-50 border-b border-stone-200 overflow-x-auto custom-scrollbar">
-                <div className="flex items-center gap-1 border-r border-stone-200 pr-2">
+              <div className="flex items-center gap-1 px-4 py-2 bg-stone-50 border-b border-stone-200 overflow-x-auto custom-scrollbar no-scrollbar whitespace-nowrap sticky top-[57px] md:top-[61px] z-10">
+                <div className="flex items-center gap-1 border-r border-stone-200 pr-2 shrink-0">
                   <button 
                     onClick={() => editor?.chain().focus().toggleBold().run()}
                     className={`p-1.5 hover:bg-stone-200 text-stone-600 rounded transition-colors ${editor?.isActive('bold') ? 'bg-stone-200' : ''}`}
@@ -434,10 +444,8 @@ export default function AdminDashboard({ isOpen, onClose }: AdminDashboardProps)
                 </div>
               )}
 
-              <div className="flex-1 min-h-0 bg-white editor-container overflow-y-auto">
-                <div className="max-w-4xl mx-auto">
-                  <EditorContent editor={editor} className="outline-none min-h-full p-6 md:p-8 font-apple prose prose-stone" />
-                </div>
+              <div className="flex-1 min-h-0 bg-white editor-container overflow-y-auto custom-scrollbar">
+                <EditorContent editor={editor} className="outline-none min-h-full p-6 md:p-12 font-apple prose prose-stone max-w-none" />
               </div>
             </div>
           ) : (
@@ -445,10 +453,15 @@ export default function AdminDashboard({ isOpen, onClose }: AdminDashboardProps)
               <div className="p-6 pb-2">
                 <div className="flex items-center justify-between mb-8">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-[#f86d1a]/10 flex items-center justify-center">
-                      <span className="text-xs font-bold text-[#f86d1a]">Admin</span>
+                    <div className="w-10 h-10 rounded-full bg-stone-900 flex items-center justify-center overflow-hidden border border-stone-100 shadow-sm">
+                      <img 
+                        src="https://lh3.googleusercontent.com/d/1ibmySrPURDmda82PCE1peA14DqoAZJjN" 
+                        alt="Logo" 
+                        className="w-full h-full object-cover"
+                        referrerPolicy="no-referrer"
+                      />
                     </div>
-                    <div>
+                    <div className="hidden sm:block">
                       <p className="text-sm font-bold text-stone-800">관리자 모드</p>
                       <p className="text-[10px] text-stone-400 font-apple">Art Foresta Dashboard</p>
                     </div>
@@ -475,21 +488,22 @@ export default function AdminDashboard({ isOpen, onClose }: AdminDashboardProps)
                 </div>
               </div>
 
-              <div className="flex-1 min-h-0 bg-white overflow-y-auto">
-                <div className="max-w-3xl mx-auto p-6 space-y-px pb-12">
+              <div className="flex-1 min-h-0 bg-white overflow-y-auto custom-scrollbar">
+                <div className="max-w-none mx-auto p-4 md:p-8 space-y-px pb-12">
                   {notices
                     .slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE)
                     .map(notice => (
-                      <div key={notice.id} className="flex items-center justify-between p-4 border-b border-stone-50 hover:bg-stone-50 transition-colors group">
-                        <div className="flex items-center gap-4 flex-1 min-w-0">
-                          <div className="w-1.5 h-1.5 rounded-full bg-stone-200 group-hover:bg-[#f86d1a] transition-colors" />
+                      <div key={notice.id} className="flex items-center justify-between p-3 md:p-5 border-b border-stone-50 hover:bg-stone-50 transition-colors group">
+                        <div className="flex items-center gap-3 md:gap-4 flex-1 min-w-0">
+                          <div className="w-1.5 h-1.5 rounded-full bg-stone-200 group-hover:bg-[#f86d1a] transition-colors shrink-0" />
                           <div className="flex-1 min-w-0">
-                            <div className="flex items-center gap-2 mb-0.5">
-                              <h4 className="text-[13px] font-medium text-stone-800 truncate">{notice.title}</h4>
+                            <div className="flex flex-col md:flex-row md:items-center md:gap-3">
+                              <h4 className="text-sm md:text-[15px] font-bold text-stone-800 truncate">{notice.title}</h4>
+                              <span className="text-[10px] text-stone-400 font-apple">{notice.date}</span>
                             </div>
                           </div>
                         </div>
-                        <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <div className="flex items-center gap-1 md:gap-2 opacity-0 group-hover:opacity-100 transition-opacity shrink-0 ml-2">
                           {deletingId === notice.id ? (
                             <div className="flex items-center gap-1 bg-red-50 rounded-lg p-1 animate-in fade-in zoom-in duration-200">
                               <span className="text-[10px] font-bold text-red-500 px-2 italic">삭제?</span>

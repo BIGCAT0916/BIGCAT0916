@@ -56,9 +56,25 @@ export default function NoticeDetail() {
     <motion.div 
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="min-h-screen bg-white pt-32 pb-12 px-6"
+      className="min-h-screen bg-white pt-20 md:pt-32 pb-12 px-6 relative overflow-hidden"
     >
-      <div className="max-w-3xl mx-auto">
+      {/* Decorative Grid Background (Portfolio Style) */}
+      <div className="absolute inset-0 z-0 opacity-[0.4]" 
+           style={{ 
+             backgroundImage: 'linear-gradient(to right, #ececec 1px, transparent 1px), linear-gradient(to bottom, #ececec 1px, transparent 1px)',
+             backgroundSize: '40px 40px' 
+           }} 
+      />
+      
+      {/* Decorative Blur Circles */}
+      <div className="absolute top-[20%] -left-[10%] w-96 h-96 bg-stone-50 rounded-full blur-[100px] opacity-60 z-0 pointer-events-none" />
+      <div className="absolute bottom-[10%] -right-[5%] w-[30rem] h-[30rem] bg-stone-50 rounded-full blur-[120px] opacity-60 z-0 pointer-events-none" />
+      
+      {/* Decorative Borders */}
+      <div className="absolute top-[30%] left-[15%] w-40 h-40 border border-stone-100 rotate-12 z-0 pointer-events-none" />
+      <div className="absolute bottom-[20%] right-[10%] w-32 h-32 border border-stone-100 -rotate-12 z-0 pointer-events-none" />
+
+      <div className="max-w-3xl mx-auto relative z-10">
         <button 
           onClick={() => {
             navigate('/');
